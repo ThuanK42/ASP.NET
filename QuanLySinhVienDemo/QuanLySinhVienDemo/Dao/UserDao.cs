@@ -10,15 +10,26 @@ namespace QuanLySinhVienDemo.Dao
     {
         public UserSystem us = null;
         public string pathFile = "Data\\UserFile.txt";
+        public List<UserSystem> lstUserSystem = null;
 
         public UserDao()
         {
             if (!File.Exists(pathFile)) File.Create(pathFile);
+            lstUserSystem = new List<UserSystem>();
         }
 
-        public void DangKy(string username, string password, string repassword, int codeTeacher)
+        public void DangKy(string username, string password, int codeTeacher)
         {
-            
+            lstUserSystem.Add(new UserSystem(username, password, codeTeacher));
+            LuuFileUser(lstUserSystem);
+
+        }
+
+        public void DangNhap(string username, string password, int codeTeacher)
+        {
+            lstUserSystem.Add(new UserSystem(username, password, codeTeacher));
+            LuuFileUser(lstUserSystem);
+
         }
 
         public static List<UserSystem> DocFileUser()
@@ -50,7 +61,7 @@ namespace QuanLySinhVienDemo.Dao
             return lstUserSystem;
         }
 
-        public static bool LuuFileUser(List<UserSystem> dsUS)
+        public static void LuuFileUser(List<UserSystem> dsUS)
         {
             try
             {
@@ -61,7 +72,7 @@ namespace QuanLySinhVienDemo.Dao
                     sw.WriteLine(line);
                 }
                 sw.Close();
-                return true;
+                
             }
             catch (Exception ex)
             {
