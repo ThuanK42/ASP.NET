@@ -25,8 +25,10 @@ namespace QuanLySinhVienDemo
         {
             HienThiLopLenCombobox();
             HienThiDanhSachLop();
-
+                
         }
+        private static List<Student> lstStudent = new List<Student>();
+        
 
         private bool KiemTraThongTinLopCoThieuKhong(string malop, string tenlop)
         {
@@ -152,6 +154,29 @@ namespace QuanLySinhVienDemo
                 }
             }
             
+        }
+
+        private void btnDSSV_Click(object sender, EventArgs e)
+        {
+            if (cboMaLop.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui long chon ma lop de xem danh sach sinh vien lop do");
+            }
+            else
+            {
+                if (cld.KiemTraLopTonTaiKhong(cboMaLop.SelectedItem.ToString()) == false)
+                {
+                    MessageBox.Show("Lop khong ton tai");
+                }
+                else
+                {
+                    this.Hide();
+                    QuanLySinhVien qlsv = new QuanLySinhVien(cld.LayDanhSachSinhVienTheoMaLop(cboMaLop.SelectedItem.ToString()), cboMaLop.SelectedItem.ToString());
+                    qlsv.Show();
+                   
+                    
+                }
+            }
         }
     }
 }

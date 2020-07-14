@@ -2,14 +2,14 @@
 {
     public class Student
     {
-        public int codeStudent { set; get; }
+        public string codeStudent { set; get; }
         public string nameStudent { set; get; }
         public string genderStudent { set; get; }
 
         public string address { set; get; }
         public string codeClass { set; get; }
 
-        public Student(string codeClass,int codeStudent, string nameStudent, string genderStudent, string address)
+        public Student(string codeClass,string codeStudent, string nameStudent, string genderStudent, string address)
         {
             this.codeStudent = codeStudent;
             this.nameStudent = nameStudent;

@@ -156,6 +156,7 @@
             this.btnDSSV.TabIndex = 1;
             this.btnDSSV.Text = "Hien thi danh sach sinh vien";
             this.btnDSSV.UseVisualStyleBackColor = true;
+            this.btnDSSV.Click += new System.EventHandler(this.btnDSSV_Click);
             // 
             // btnXoaLop
             // 
