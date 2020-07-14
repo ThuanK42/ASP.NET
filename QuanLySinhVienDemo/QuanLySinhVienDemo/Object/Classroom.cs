@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace QuanLySinhVienDemo.Object
 {
     public class Classroom
     {
-        public int codeClass { set; get; }
+        public string codeClass { set; get; }
         public string nameClass { set; get; }
 
-        public int codeTeacher { set; get; }
+        public List<Student> listStudent { set; get; }
 
-        public List<Student> listStudent;
-
-        public Classroom(int codeClass, string nameClass, int codeTeacher)
+        public Classroom(string codeClass, string nameClass, List<Student> listStudent)
         {
             this.codeClass = codeClass;
             this.nameClass = nameClass;
-            this.codeTeacher = codeTeacher;
-            listStudent = new List<Student>();
+           
+            this.listStudent = listStudent;
         }
 
         public override string ToString()
         {
-            return codeClass + " - " + nameClass+" - "+codeTeacher;
+            return codeClass + " - " + nameClass;
         }
-
     }
 }

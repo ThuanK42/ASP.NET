@@ -8,33 +8,76 @@ namespace QuanLySinhVienDemo.Dao
 {
     public class UserDao
     {
-        public UserSystem us = null;
-        public string pathFile = "Data\\UserFile.txt";
-        public List<UserSystem> lstUserSystem = null;
+        public  UserSystem _user = null;
 
         public UserDao()
         {
-            if (!File.Exists(pathFile)) File.Create(pathFile);
-            lstUserSystem = new List<UserSystem>();
+            if (!File.Exists("Data\\UserFile.txt"))
+            {
+                File.Create("Data\\UserFile.txt");
+            }
         }
 
-        public void DangKy(string username, string password, int codeTeacher)
+        public bool DangNhap(string username, string password)
         {
-            lstUserSystem.Add(new UserSystem(username, password, codeTeacher));
-            LuuFileUser(lstUserSystem);
+            List<UserSystem> lstUserSystem2 = DocFileUser();
 
+            if (lstUserSystem2.Count > 0) // neu list user ko rong
+            {
+                foreach (UserSystem us in lstUserSystem2)
+                {
+                    if (us.username.Equals(username) == true && us.password.Equals(password) == true)
+                    {
+                        _user = new UserSystem(us.username, us.password);
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
-        public void DangNhap(string username, string password, int codeTeacher)
+        public bool KiemTraUserDaTonTaiTrongHeThongChua(string username, string pass)
         {
-            lstUserSystem.Add(new UserSystem(username, password, codeTeacher));
-            LuuFileUser(lstUserSystem);
 
+            List<UserSystem> lstUserSystem = DocFileUser();
+            if (lstUserSystem.Count > 0)
+            {
+                foreach (UserSystem us in lstUserSystem)
+                {
+                    if (us.username.Equals(username) == true && us.password == pass)
+                    {
+                        return true;
+                    }
+                    if (us.username.Equals(username) == true)
+                    {
+                        return true;
+                    }
+                    if (us.password == pass)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public  bool DangKy(string username, string password)
+        {
+            if (KiemTraUserDaTonTaiTrongHeThongChua(username, password) == false)
+            {
+                /*lstUserSystem.Add(new UserSystem(username, password));*/
+                LuuFileUser(username, password);
+
+                return true;
+            }
+            return false;
         }
 
         public static List<UserSystem> DocFileUser()
         {
-            List<UserSystem> lstUserSystem = new List<UserSystem>();
+            List<UserSystem> lus = new List<UserSystem>();
             try
             {
                 StreamReader sr = new StreamReader("Data\\UserFile.txt", Encoding.UTF8);
@@ -42,37 +85,35 @@ namespace QuanLySinhVienDemo.Dao
                 while (line != null)
                 {
                     string[] arr = line.Split(';');
-                    if (arr.Length == 3)
+                    if (arr.Length == 2)
                     {
                         UserSystem us = new UserSystem();
                         us.username = arr[0];
                         us.password = arr[1];
-                        us.codeTeacher = int.Parse(arr[2]);
-                        lstUserSystem.Add(us);
+
+                        lus.Add(us);
                     }
                     line = sr.ReadLine();// doc dong tiep theo
                 }
+
                 sr.Close();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return lstUserSystem;
+            return lus;
         }
 
-        public static void LuuFileUser(List<UserSystem> dsUS)
+        public static void LuuFileUser(string username, string password)
         {
             try
             {
-                StreamWriter sw = new StreamWriter("Data\\UserFile.txt", false, Encoding.UTF8);// ghi de, co dau
-                foreach (UserSystem us in dsUS)
-                {
-                    string line = us.username + ";" + us.password + ";" + us.codeTeacher;
-                    sw.WriteLine(line);
-                }
+                StreamWriter sw = new StreamWriter("Data\\UserFile.txt", true, Encoding.UTF8);// ghi de, co dau
+
+                string line = username + ";" + password ;
+                sw.WriteLine(line);
                 sw.Close();
-                
             }
             catch (Exception ex)
             {

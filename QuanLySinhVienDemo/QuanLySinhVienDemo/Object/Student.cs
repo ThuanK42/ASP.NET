@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuanLySinhVienDemo.Object
+﻿namespace QuanLySinhVienDemo.Object
 {
     public class Student
     {
@@ -13,9 +7,9 @@ namespace QuanLySinhVienDemo.Object
         public string genderStudent { set; get; }
 
         public string address { set; get; }
-        public int codeClass { set; get; }
+        public string codeClass { set; get; }
 
-        public Student(int codeStudent, string nameStudent, string genderStudent, string address, int codeClass)
+        public Student(string codeClass,int codeStudent, string nameStudent, string genderStudent, string address)
         {
             this.codeStudent = codeStudent;
             this.nameStudent = nameStudent;
@@ -28,7 +22,5 @@ namespace QuanLySinhVienDemo.Object
         {
             return codeStudent + " - " + nameStudent + " - " + genderStudent + " - " + address + " - " + codeClass;
         }
-
-
     }
 }
