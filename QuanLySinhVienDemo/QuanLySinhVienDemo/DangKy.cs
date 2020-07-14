@@ -10,12 +10,13 @@ namespace QuanLySinhVienDemo
         {
             InitializeComponent();
         }
-        UserDao ud = new UserDao();
+
+        private UserDao ud = new UserDao();
 
         private bool kiemTraThongTin(string userName, string pass, string repass)
         {
             if (userName == "" && pass == "" &&
-                repass == "" )
+                repass == "")
             {
                 MessageBox.Show("Vui long dien day du cac thong tin");
                 return false;
@@ -35,15 +36,13 @@ namespace QuanLySinhVienDemo
                 MessageBox.Show("Ban chua dien nhap lai mat khau");
                 return false;
             }
-
             else if (pass.Equals(repass) == false)
             {
                 MessageBox.Show("2 mat khau khong trung nhau");
                 return false;
             }
-           
             else if (userName != null && pass != null &&
-                repass != null && pass.Equals(repass) == true )
+                repass != null && pass.Equals(repass) == true)
             {
                 return true;
             }
@@ -56,7 +55,7 @@ namespace QuanLySinhVienDemo
             string userName = txtTenDN.Text.Trim();
             string pass = txtMK.Text.Trim();
             string repass = txtNhapLaiMK.Text.Trim();
-            
+
             if (kiemTraThongTin(userName, pass, repass) == true)
             {
                 if (ud.DangKy(userName, pass) == true)

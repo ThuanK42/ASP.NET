@@ -2,52 +2,45 @@
 using QuanLySinhVienDemo.Object;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuanLySinhVienDemo
 {
     public partial class QuanLyLop : Form
     {
-
         public QuanLyLop()
         {
             InitializeComponent();
         }
-        ClassDao cld = new ClassDao();
+
+        private ClassDao cld = new ClassDao();
 
         private void QuanLyLop_Load(object sender, EventArgs e)
         {
             HienThiLopLenCombobox();
             HienThiDanhSachLop();
-                
         }
+
         private static List<Student> lstStudent = new List<Student>();
-        
 
         private bool KiemTraThongTinLopCoThieuKhong(string malop, string tenlop)
         {
-            if (malop.Equals(null) == true && tenlop.Equals(null) == true)
+            if (malop == "" && tenlop == "")
             {
                 MessageBox.Show("Can dien day du thong tin");
                 return true;
             }
-            else if (malop.Equals(null) == true)
+            else if (malop == "")
             {
                 MessageBox.Show("Can dien ma lop");
                 return true;
             }
-            else if (tenlop.Equals(null) == true)
+            else if (tenlop == "")
             {
                 MessageBox.Show("Can dien ten lop");
                 return true;
             }
-            else if (malop.Equals(null) == false && tenlop.Equals(null) == false)
+            else if (malop != "" && tenlop != "")
             {
                 return false;
             }
@@ -72,12 +65,13 @@ namespace QuanLySinhVienDemo
         {
             cboMaLop.Items.Clear();
             foreach (Classroom cl in cld.LayDanhSachCacLop())
-            {              
+            {
                 cboMaLop.Items.Add(cl.codeClass);
             }
         }
 
-        private void HienThiDanhSachLop() {
+        private void HienThiDanhSachLop()
+        {
             foreach (Classroom cl in cld.LayDanhSachCacLop())
             {
                 ListViewItem lvi = new ListViewItem(cl.codeClass);
@@ -106,17 +100,30 @@ namespace QuanLySinhVienDemo
         {
             string malop = cboMaLop.Text.Trim();
             string tenlop = txtTenLop.Text.Trim();
-
-            if(KiemTraThongTinLopCoThieuKhong(malop,tenlop) == false)
+            int count = cld.LayDanhSachCacLop().Count;
+            if (KiemTraThongTinLopCoThieuKhong(malop, tenlop) == false)
             {
-                cld.ThemLop(new Classroom(malop,tenlop, new List<Student>()));
+                cld.ThemLop(new Classroom(malop, tenlop, new List<Student>()));
+                if (cld.LayDanhSachCacLop().Count > count)
+                {
+                    MessageBox.Show("Them thanh cong");
+                    lvLop.Items.Clear();
+                    HienThiDanhSachLop();
+                    HienThiLopLenCombobox();
+                    cboMaLop.Text = "";
+                    txtTenLop.Text = "";
+                }
+                else
+                {
+                    MessageBox.Show("Them that bai");
+                    lvLop.Items.Clear();
+                    HienThiDanhSachLop();
+                    HienThiLopLenCombobox();
+                    cboMaLop.Text = "";
+                    txtTenLop.Text = "";
+                }
             }
-            lvLop.Items.Clear();
-            HienThiDanhSachLop();
-            HienThiLopLenCombobox();
         }
-
-
 
         private void btnSuaLop_Click(object sender, EventArgs e)
         {
@@ -129,12 +136,13 @@ namespace QuanLySinhVienDemo
             }
             lvLop.Items.Clear();
             HienThiDanhSachLop();
-           
+            cboMaLop.Text = "";
+            txtTenLop.Text = "";
         }
 
         private void btnXoaLop_Click(object sender, EventArgs e)
         {
-            if(cboMaLop.SelectedIndex == -1)
+            if (cboMaLop.SelectedIndex == -1)
             {
                 MessageBox.Show("Vui long chon ma lop trong danh sach hien tai");
             }
@@ -146,14 +154,29 @@ namespace QuanLySinhVienDemo
                 }
                 else
                 {
+                    int count = cld.LayDanhSachCacLop().Count;
                     cld.XoaLop(cboMaLop.SelectedItem.ToString());
-                    lvLop.Items.Clear();
-                    HienThiDanhSachLop();
-                    HienThiLopLenCombobox();
-                    cboMaLop.Text = "";
+
+                    if (cld.LayDanhSachCacLop().Count < count)
+                    {
+                        MessageBox.Show("Xoa lop thanh cong");
+                        lvLop.Items.Clear();
+                        HienThiDanhSachLop();
+                        HienThiLopLenCombobox();
+                        cboMaLop.Text = "";
+                        txtTenLop.Text = "";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xoa lop that bai");
+                        lvLop.Items.Clear();
+                        HienThiDanhSachLop();
+                        HienThiLopLenCombobox();
+                        cboMaLop.Text = "";
+                        txtTenLop.Text = "";
+                    }
                 }
             }
-            
         }
 
         private void btnDSSV_Click(object sender, EventArgs e)
@@ -173,8 +196,6 @@ namespace QuanLySinhVienDemo
                     this.Hide();
                     QuanLySinhVien qlsv = new QuanLySinhVien(cld.LayDanhSachSinhVienTheoMaLop(cboMaLop.SelectedItem.ToString()), cboMaLop.SelectedItem.ToString());
                     qlsv.Show();
-                   
-                    
                 }
             }
         }

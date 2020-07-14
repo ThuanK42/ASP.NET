@@ -9,7 +9,7 @@
         public string address { set; get; }
         public string codeClass { set; get; }
 
-        public Student(string codeClass,string codeStudent, string nameStudent, string genderStudent, string address)
+        public Student(string codeClass, string codeStudent, string nameStudent, string genderStudent, string address)
         {
             this.codeStudent = codeStudent;
             this.nameStudent = nameStudent;

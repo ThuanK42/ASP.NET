@@ -1,25 +1,17 @@
 ﻿using QuanLySinhVienDemo.Dao;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuanLySinhVienDemo
 {
     public partial class DangNhap : Form
     {
-        
         public DangNhap()
         {
-            
             InitializeComponent();
         }
-        UserDao ud = new UserDao();
+
+        private UserDao ud = new UserDao();
 
         private void btnDK_Click(object sender, EventArgs e)
         {
@@ -27,17 +19,16 @@ namespace QuanLySinhVienDemo
             DangKy dk = new DangKy();
             dk.Show();
         }
-        
+
         private void btnDN_Click(object sender, EventArgs e)
 
         {
-
             string userName = txtTenDN.Text.Trim();
             string pass = txtMK.Text.Trim();
 
-            if(kiemTraThongTin(userName,pass) == true)
+            if (kiemTraThongTin(userName, pass) == true)
             {
-                if(ud.DangNhap(userName,pass) == true)
+                if (ud.DangNhap(userName, pass) == true)
                 {
                     MessageBox.Show("Dang nhap thanh cong");
                     this.Hide();
@@ -68,8 +59,7 @@ namespace QuanLySinhVienDemo
                 MessageBox.Show("Ban chua dien mat khau");
                 return false;
             }
-
-            else if (userName != null && pass != null )
+            else if (userName != null && pass != null)
             {
                 return true;
             }

@@ -8,7 +8,7 @@ namespace QuanLySinhVienDemo.Dao
 {
     public class UserDao
     {
-        public  UserSystem _user = null;
+        public UserSystem _user = null;
 
         public UserDao()
         {
@@ -40,7 +40,6 @@ namespace QuanLySinhVienDemo.Dao
 
         public bool KiemTraUserDaTonTaiTrongHeThongChua(string username, string pass)
         {
-
             List<UserSystem> lstUserSystem = DocFileUser();
             if (lstUserSystem.Count > 0)
             {
@@ -63,7 +62,7 @@ namespace QuanLySinhVienDemo.Dao
             return false;
         }
 
-        public  bool DangKy(string username, string password)
+        public bool DangKy(string username, string password)
         {
             if (KiemTraUserDaTonTaiTrongHeThongChua(username, password) == false)
             {
@@ -111,7 +110,7 @@ namespace QuanLySinhVienDemo.Dao
             {
                 StreamWriter sw = new StreamWriter("Data\\UserFile.txt", true, Encoding.UTF8);// ghi de, co dau
 
-                string line = username + ";" + password ;
+                string line = username + ";" + password;
                 sw.WriteLine(line);
                 sw.Close();
             }

@@ -17,8 +17,6 @@ namespace QuanLySinhVienDemo.Dao
             foreach (Student st in students)
             {
                 if (st.codeStudent == student.codeStudent) { return true; }
-                    
-                   
             }
             return false;
         }
@@ -56,7 +54,6 @@ namespace QuanLySinhVienDemo.Dao
                     break;
                 }
             }
-           
         }
 
         public List<Student> LayDanhSachSinhVien()

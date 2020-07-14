@@ -45,8 +45,7 @@ namespace QuanLySinhVienDemo
         {
             cboMaLop2.Items.Clear();
 
-                cboMaLop2.Items.Add(classrooms);
-           
+            cboMaLop2.Items.Add(classrooms);
         }
 
         private void btnTroVe_Click(object sender, EventArgs e)
@@ -77,12 +76,13 @@ namespace QuanLySinhVienDemo
             }
             else
             {
-                int count =st.LayDanhSachSinhVien().Count;
+                int count = st.LayDanhSachSinhVien().Count;
                 malop = cboMaLop2.SelectedItem.ToString().Trim();
                 if (KiemTraThongTinSinhVienCoThieuKhong(mssv, tensv, diachi) == false)
                 {
                     st.ThemSinhVien(new Student(malop, mssv, tensv, gioitinh, diachi));
-                    if (st.LayDanhSachSinhVien().Count > count) {
+                    if (st.LayDanhSachSinhVien().Count > count)
+                    {
                         MessageBox.Show("Them sinh vien thanh cong");
                         lvSinhVien.Items.Clear();
                         HienThiDanhSachSinhVien();
@@ -102,8 +102,6 @@ namespace QuanLySinhVienDemo
                         txtTenSV.Text = "";
                     }
                 }
-                
-
             }
         }
 
@@ -114,7 +112,6 @@ namespace QuanLySinhVienDemo
                 MessageBox.Show("Can dien day du thong tin");
                 return true;
             }
-
             else if (mssv == "")
             {
                 MessageBox.Show("Can dien ma sinh vien");
@@ -170,7 +167,8 @@ namespace QuanLySinhVienDemo
                     txtMSSV.Text = "";
                     txtTenSV.Text = "";
                 }
-                else {
+                else
+                {
                     MessageBox.Show("Cap nhat that bai");
                     lvSinhVien.Items.Clear();
                     HienThiDanhSachSinhVien();
@@ -179,17 +177,16 @@ namespace QuanLySinhVienDemo
                     txtMSSV.Text = "";
                     txtTenSV.Text = "";
                 }
-                
             }
         }
 
         private void btnXoaSinhVien_Click(object sender, EventArgs e)
         {
             string mssv = txtMSSV.Text.Trim();
-            if(mssv != null)
+            if (mssv != null)
             {
                 st.XoaSinhVien(mssv);
-                
+
                 lvSinhVien.Items.Clear();
                 HienThiDanhSachSinhVien();
                 cboMaLop2.Text = "";
@@ -198,7 +195,5 @@ namespace QuanLySinhVienDemo
                 txtTenSV.Text = "";
             }
         }
-
-
     }
 }

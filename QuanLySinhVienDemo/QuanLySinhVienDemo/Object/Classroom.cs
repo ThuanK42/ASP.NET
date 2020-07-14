@@ -13,7 +13,7 @@ namespace QuanLySinhVienDemo.Object
         {
             this.codeClass = codeClass;
             this.nameClass = nameClass;
-           
+
             this.listStudent = listStudent;
         }
 

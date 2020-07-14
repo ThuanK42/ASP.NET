@@ -5,7 +5,6 @@ namespace QuanLySinhVienDemo.Dao
 {
     public class ClassDao
     {
-
         public static List<Student> lstStudentA = new List<Student>() {
         new Student("CNTT A", "16130606","Le Van Thuan","Nam","Nha Trang"),
         new Student("CNTT A", "16130607","Le Van Quang","Nam","Nha Trang"),
@@ -25,8 +24,6 @@ namespace QuanLySinhVienDemo.Dao
         new Classroom("CNTT A", "Lop cong nghe thong tin A",lstStudentA),
         new Classroom("CNTT B", "Lop cong nghe thong tin B",lstStudentB),
         new Classroom("CNTT C", "Lop cong nghe thong tin C",lstStudentC)};
-
-
 
         public List<Classroom> LayDanhSachCacLop()
         {
@@ -89,5 +86,4 @@ namespace QuanLySinhVienDemo.Dao
             return null;
         }
     }
-
 }
