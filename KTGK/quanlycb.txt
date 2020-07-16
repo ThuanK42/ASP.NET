@@ -1,0 +1,909 @@
+using System;
+
+using System.Collections.Generic;
+
+using System.Linq;
+
+using System.Text;
+
+ 
+
+namespace Education
+
+{
+
+    abstract class Education
+
+    {
+
+        public string hoTen { get; protected set; }
+
+        public string canBo { get; protected set; }
+
+        public string trinhDo { get; protected set; }
+
+        public int phuCap { get; protected set; }
+
+        public int soTiet { get; protected set; }
+
+        public float heSo { get; protected set; }
+
+        public string phongBan { get; protected set; }
+
+        public int ngayCong { get; protected set; }
+
+        public string khoa { get; protected set; }
+
+        public float luong { get; protected set; }
+
+        protected Education()
+
+        {
+
+        }
+
+ 
+
+        public bool TimKiem(string chuoi1, string chuoi2)
+
+        {
+
+            if (chuoi1 == Program.TachChuoi(this.hoTen) && chuoi2 ==this.phongBan)
+
+                return true;
+
+            else
+
+                return false;
+
+        }
+
+ 
+
+    }
+
+    class GiangVien : Education
+
+    {
+
+        public GiangVien(string hoTen, string canBo, string khoa, string trinhDo,int phuCap, int soTiet, float heSo, float luong) : base() { this.hoTen = hoTen;this.canBo = canBo; this.khoa = khoa; this.trinhDo = trinhDo; this.phuCap = phuCap; this.soTiet = soTiet; this.heSo = heSo; this.luong = luong; }
+
+    }
+
+    class NhanVien : Education
+
+    {
+
+        public NhanVien(string hoTen, string canBo, string phongBan, intngayCong, string trinhDo, int phuCap, float heSo, float luong) : base() {this.hoTen = hoTen; this.canBo = canBo; this.phongBan = phongBan; this.ngayCong = ngayCong; ; this.trinhDo = trinhDo; this.phuCap = phuCap; this.heSo = heSo;this.luong = luong; }
+
+    }
+
+    class Program
+
+    {
+
+        private static List<Education> list;
+
+        private static bool exit = false;
+
+        //private static Education Worker;
+
+        private static int i = 1;
+
+        static void Main(string[] args)
+
+        {
+
+            list = new List<Education>(0);
+
+            while (!exit)
+
+            {
+
+                Console.WriteLine("1. Nhap du lieu can bo");
+
+                Console.WriteLine("2. Thuc hien viec tim kiem");
+
+                Console.WriteLine("3. Xuat ra danh sach va sap xep");
+
+                Console.Write("Chon cau: ");
+
+                string dk = Console.ReadLine();
+
+                switch (dk)
+
+                {
+
+                    case "1":
+
+                Console.WriteLine("1. Nhap du lieu can bo");
+
+                CreateNewWorker(list);
+
+                        break;
+
+                    case "2":
+
+                Console.WriteLine("--------------------------");
+
+                Console.WriteLine("2. Thuc hien viec tim kiem");
+
+                Console.WriteLine("--------------------------");
+
+                Console.Write("\tNhap ten can tim kiem: ");
+
+                string tenrieng = Console.ReadLine();
+
+                Console.Write("\tNhap phong can tim kiem: ");
+
+                string phongban = Console.ReadLine();
+
+                for (int i = 0; i < list.Count; i++)
+
+                {
+
+                    if (list[i].TimKiem(tenrieng, phongban) == true)
+
+                        PrintWork(i + 1, list[i]);
+
+                }
+
+                        break;
+
+                    case "3":
+
+                Console.WriteLine("--------------------------");
+
+                Console.WriteLine("3. Xuat ra danh sach va sap xep");
+
+                Console.WriteLine("--------------------------");
+
+ 
+
+                var lengths = from element in list
+
+                              orderby element.luong, TachChuoi(element.hoTen)
+
+                              select element;
+
+ 
+
+                foreach (Education value in lengths)
+
+                {
+
+                    PrintWork(i, value);
+
+                    i++;
+
+                }
+
+                Console.WriteLine("--------------------------");
+
+                break;
+
+                    default:
+
+                        break;
+
+                }
+
+            }
+
+        }
+
+        public static string TachChuoi(string chuoi)
+
+        {
+
+            string ten;
+
+            string[] arr = chuoi.Split(' ');
+
+            if (arr.Length >= 2)
+
+            {
+
+                ten = arr[arr.Length - 1];
+
+                return ten;
+
+            }
+
+            return "Khong tim thay";
+
+        }
+
+        private static void CreateNewWorker(List<Education> list)
+
+        {
+
+            list.Clear();
+
+            Console.Write("Nhap so luong: ");
+
+            string sl = Console.ReadLine();
+
+            for (int i = 1; i <= Convert.ToInt32(sl); i++)
+
+            {
+
+                //-------PHAN CHUNG------------
+
+                Console.WriteLine("------------------------------------------");
+
+                Console.Write("Nhap Ho Ten " + i + ": ");
+
+                string hoTen = Console.ReadLine();
+
+                Console.WriteLine("Can bo:\n1. Giang Vien\n2. Nhan Vien");
+
+                Console.Write("Nhap Can bo: ");
+
+                string canBo = Console.ReadLine();
+
+                Console.Write("\tNhap He so :");
+
+                float heSo = float.Parse(Console.ReadLine());
+
+                //-------PHAN RIENG------------
+
+                if (canBo == "1")
+
+                {
+
+                    Console.Write("\tNhap Khoa :");
+
+                    string khoa = Console.ReadLine();
+
+                    Console.Write("Trinh do:\n1. Cu Nhan\n2. Thac si\n3.TienSi\n\tNhap trinh do :");
+
+                    int trinhDo = int.Parse(Console.ReadLine());
+
+                    Console.Write("\tNhap So tiet :");
+
+                    int soTiet = int.Parse(Console.ReadLine());
+
+                    float luong = heSo * 730 + KiemTraPhuCap(trinhDo) + soTiet * 45;
+
+                    list.Add(new GiangVien(hoTen, "GiangVien", khoa, KiemTraTrinhDo(trinhDo), KiemTraPhuCap(trinhDo), soTiet, heSo, luong));
+
+                }
+
+                else if (canBo == "2")
+
+                {
+
+                    Console.Write("\tNhap Phong :");
+
+                    string phongBan = Console.ReadLine();
+
+                    Console.Write("Chuc vu:\n4. Truong Phong\n5. Pho Phong\n6.Nhan vien\n\tNhap Chuc vu :");
+
+                    int trinhDo = int.Parse(Console.ReadLine());
+
+                    Console.Write("\tNhap so ngay cong :");
+
+                    int ngayCong = int.Parse(Console.ReadLine());
+
+                    float luong = heSo * 730 + KiemTraPhuCap(trinhDo) + ngayCong * 30;
+
+                    list.Add(new NhanVien(hoTen, "NhanVien", phongBan, ngayCong, KiemTraTrinhDo(trinhDo), KiemTraPhuCap(trinhDo), heSo, luong));
+
+                }
+
+                else return;
+
+            }
+
+        }
+
+        private static void PrintWork(int number, Education Worker)
+
+        {
+
+            if (Worker.canBo == "GiangVien")
+
+                Console.WriteLine("{0} HoTen: {1}, CanBo: {2}, Phong: {3}, Khoa: {4}, Trinh Do: {5}, Phu cap: {6}, So Tiet: {7}, Ngay Cong: {8}, He So: {9}, Luong: {10}", number, Worker.hoTen, Worker.canBo, Worker.phongBan, Worker.khoa, Worker.trinhDo, Worker.phuCap, Worker.soTiet, Worker.ngayCong, Worker.heSo, Worker.luong);
+
+            if (Worker.canBo == "NhanVien")
+
+                Console.WriteLine("{0} HoTen: {1}, CanBo: {2}, Phong: {3}, Khoa: {4}, Trinh Do: {5}, Phu cap: {6}, So Tiet: {7}, Ngay Cong: {8}, He So: {9}, Luong: {10}", number, Worker.hoTen, Worker.canBo, Worker.phongBan, Worker.khoa, Worker.trinhDo, Worker.phuCap, Worker.soTiet, Worker.ngayCong, Worker.heSo, Worker.luong);
+
+        }
+
+ 
+
+        public enum TrinhDo { CuNhan = 1, ThacSi = 2, TienSy = 3, TruongPhong = 4, PhoPhong = 5, NhanVien = 6 }
+
+        public static int KiemTraPhuCap(int trinhDo)
+
+        {
+
+            if (trinhDo == 1)
+
+                return 300;
+
+            else if (trinhDo == 2 || trinhDo == 6)
+
+                return 500;
+
+            else if (trinhDo == 3 || trinhDo == 5)
+
+                return 1000;
+
+            return 2000;
+
+        }
+
+ 
+
+        public static string KiemTraTrinhDo(int trinhDo)
+
+        {
+
+            if (trinhDo == 1) return TrinhDo.CuNhan.ToString();
+
+            if (trinhDo == 2) return TrinhDo.ThacSi.ToString();
+
+            if (trinhDo == 3) return TrinhDo.TienSy.ToString();
+
+            if (trinhDo == 4) return TrinhDo.TruongPhong.ToString();
+
+            if (trinhDo == 5) return TrinhDo.PhoPhong.ToString();
+
+            return TrinhDo.NhanVien.ToString(); ;
+
+        }
+
+    }
+
+}
+
+Cách 2:
+
+using System;
+
+using System.Collections;
+
+using System.Linq;
+
+using System.Text;
+
+ 
+
+namespace KiemThu
+
+{
+
+    class Program
+
+    {
+
+ 
+
+        delegate NhanVien CreatNhanVien();
+
+        delegate GiangVien CreatGiangVien();
+
+        delegate void HienThi(ArrayList arrlist);
+
+        static NhanVien Nhan_Vien()
+
+        {
+
+            int temp;
+
+            NhanVien nhanvien = new NhanVien();
+
+            Console.WriteLine("Ho ten : ");
+
+            nhanvien.HoTen = Console.ReadLine();
+
+            Console.WriteLine("Phong ban : ");
+
+            nhanvien.PhongBan = Console.ReadLine();
+
+            Console.WriteLine("So ngay cong : ");
+
+ 
+
+            nhanvien.Songaycong = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("He so luong : ");
+
+            nhanvien.Hesoluong = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Chuc vu :");
+
+            Console.WriteLine("1.Truong Phong   2.Pho Phong   3.Nhan Vien");
+
+            temp = Convert.ToInt32(Console.ReadLine());
+
+            switch (temp)
+
+            {
+
+                case 1: nhanvien.Chucvu = "Truong Phong";
+
+                    nhanvien.UpdatePhucap();
+
+                    break;
+
+                case 2: nhanvien.Chucvu = "Pho Phong";
+
+                    nhanvien.UpdatePhucap();
+
+                    break;
+
+                case 3: nhanvien.Chucvu = "Nhan Vien";
+
+                    nhanvien.UpdatePhucap();
+
+                    break;
+
+            }
+
+            return nhanvien;
+
+        }
+
+        static GiangVien Giang_Vien()
+
+        {
+
+            int temp;
+
+            GiangVien giangvien = new GiangVien();
+
+            Console.WriteLine("Ho ten : ");
+
+            giangvien.HoTen = Console.ReadLine();
+
+            Console.WriteLine("Khoa : ");
+
+            giangvien.Khoa = Console.ReadLine();
+
+            Console.WriteLine("Trinh do : ");
+
+            Console.WriteLine("1.Cu nhan  2.Thac si  3.Tien si");
+
+            temp = Convert.ToInt32(Console.ReadLine());
+
+            switch (temp)
+
+            {
+
+                case 1:
+
+                    giangvien.Trinhdo = "Cu Nhan";
+
+                    giangvien.UpdatePhucap();
+
+                    break;
+
+                case 2:
+
+                    giangvien.Trinhdo = "Thac Si";
+
+                    giangvien.UpdatePhucap();
+
+                    break;
+
+                case 3:
+
+                    giangvien.Trinhdo = "Tien Si";
+
+                    giangvien.UpdatePhucap();
+
+                    break;
+
+            }
+
+            Console.WriteLine("So tiet day trong thang : ");
+
+            giangvien.Sotiet = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("He so luong : ");
+
+            giangvien.Hesoluong = Convert.ToInt32(Console.ReadLine());
+
+            return giangvien;
+
+        }
+
+        static void Display(ArrayList arrlist)
+
+        {
+
+            CanBo[] cb = new CanBo[arrlist.Count];
+
+            CanBo temp;
+
+            int k = 0;
+
+            foreach (CanBo cb1 in arrlist)
+
+            {
+
+                cb[k] = cb1;
+
+                k++;
+
+            }
+
+            for (int i = 0; i < arrlist.Count; i++)
+
+            {
+
+                for (int j = 0; j < arrlist.Count; j++)
+
+                {
+
+                    if (cb[i].salary() > cb[j].salary())
+
+                    {
+
+                        temp = cb[i];
+
+                        cb[i] = cb[j];
+
+                        cb[j] = temp;
+
+                    }
+
+                    else if (cb[i].salary() == cb[j].salary())
+
+                    {
+
+                        if (string.Compare(cb[i].HoTen, cb[j].HoTen) == -1)
+
+                        {
+
+                            temp = cb[i];
+
+                            cb[i] = cb[j];
+
+                            cb[j] = temp;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            foreach (CanBo canbo in cb)
+
+            {
+
+                Console.WriteLine("Ho va ten : " + canbo.HoTen + "\tLuong : " + canbo.salary().ToString());
+
+            }
+
+ 
+
+        }
+
+        static void Main(string[] args)
+
+        {
+
+ 
+
+            int temp;
+
+            ArrayList AlList = new ArrayList();
+
+            ArrayList AlistNhanVien = new ArrayList();
+
+            do
+
+            {
+
+                Console.WriteLine("Chuong trinh quan ly thong tin can bo");
+
+                Console.WriteLine(" 1. Tao danh sach can bo ");
+
+                Console.WriteLine(" 2. Tim kiem nhan vien ");
+
+                Console.WriteLine(" 3. Sap xep danh sach can bo");
+
+                Console.WriteLine(" Nhap : ");
+
+                temp = Convert.ToInt32(Console.ReadLine());
+
+                switch (temp)
+
+                {
+
+ 
+
+                    case 1:
+
+                        int tam = 0;
+
+                        Console.WriteLine("1. Tao giang vien    2. Tao nhan vien \nNhap: ");
+
+                        tam = Convert.ToInt32(Console.ReadLine());
+
+                        if (tam == 1)
+
+                        {
+
+                            CreatGiangVien C_GV = new CreatGiangVien(Giang_Vien);
+
+                            AlList.Add(C_GV());
+
+                        }
+
+                        else if (tam == 2)
+
+                        {
+
+                            CreatNhanVien C_NV = new CreatNhanVien(Nhan_Vien);
+
+                            NhanVien nv = C_NV();
+
+                            AlList.Add(nv);
+
+                            AlistNhanVien.Add(nv);
+
+ 
+
+                        }
+
+                        break;
+
+                    case 2:
+
+                        tam = 0;
+
+                        bool check = false;
+
+                        int count = 0;
+
+                        Console.WriteLine("1. Tim kiem theo ten   2. Tim kiem theo Phong \nNhap: ");
+
+                        tam = Convert.ToInt32(Console.ReadLine());
+
+                        if (tam == 1)
+
+                        {
+
+                            string ten;
+
+                            Console.WriteLine("Nhap Ten :");
+
+                            ten = Console.ReadLine();
+
+                            foreach (NhanVien nv in AlistNhanVien)
+
+                            {
+
+                                check = nv.SearchName(ten);
+
+                                if (check == true) count++;
+
+                            }
+
+                            if (count == 0) Console.WriteLine("Khong co ten nay trong danh sach");
+
+                        }
+
+                        else if (tam == 2)
+
+                        {
+
+                            string ten;
+
+                            Console.WriteLine("Nhap Phong :");
+
+                            ten = Console.ReadLine();
+
+                            foreach (NhanVien nv in AlistNhanVien)
+
+                            {
+
+                                check = nv.SearchPhongBan(ten);
+
+                                if (check == true) count++;
+
+                            }
+
+                            if (count == 0) Console.WriteLine("Khong co phong ban nay trong danh sach");
+
+                        }
+
+                        break;
+
+                    case 3:
+
+                        HienThi display = new HienThi(Display);
+
+                        display(AlList);
+
+                        break;
+
+                }
+
+            }
+
+            while (temp <= 3);
+
+ 
+
+        }
+
+    }
+
+ 
+
+    abstract class CanBo
+
+    {
+
+        public string HoTen { get; set; }
+
+        public int Luong { get; set; }
+
+        public int PhuCap { get; set; }
+
+        public int Hesoluong { get; set; }
+
+        public abstract int salary();
+
+        public abstract void UpdatePhucap();
+
+ 
+
+    }
+
+    class GiangVien : CanBo
+
+    {
+
+        public string Khoa { get; set; }
+
+        public string Trinhdo { get; set; }
+
+        public int Sotiet { get; set; }
+
+        public override void UpdatePhucap()
+
+        {
+
+            // throw new NotImplementedException();
+
+            if (Trinhdo == "Cu Nhan")
+
+                base.PhuCap = 300;
+
+            else if (Trinhdo == "Thac Si")
+
+                base.PhuCap = 500;
+
+            else base.PhuCap = 1000;
+
+        }
+
+        public override int salary()
+
+        {
+
+            // throw new NotImplementedException();
+
+            return (base.Hesoluong * 730 + base.PhuCap + Sotiet * 45);
+
+        }
+
+    }
+
+    class NhanVien : CanBo
+
+    {
+
+        public string PhongBan { get; set; }
+
+        public int Songaycong { get; set; }
+
+        public string Chucvu { get; set; }
+
+        public override void UpdatePhucap()
+
+        {
+
+            //throw new NotImplementedException();
+
+            if (Chucvu == "Truong Phong")
+
+                base.PhuCap = 2000;
+
+            else if (Chucvu == "Pho Phong")
+
+                base.PhuCap = 1000;
+
+            else base.PhuCap = 500;
+
+        }
+
+        public override int salary()
+
+        {
+
+            // throw new NotImplementedException();
+
+            return (base.Hesoluong * 730 + base.PhuCap + Songaycong * 30);
+
+        }
+
+        public bool SearchName(string Name)
+
+        {
+
+            if (Name == base.HoTen)
+
+            {
+
+                Console.WriteLine("===== Thong tin nhan vien =====");
+
+                Console.WriteLine("Ho va ten : " + base.HoTen);
+
+                Console.WriteLine("Phong ban : " + PhongBan);
+
+                Console.WriteLine("So ngay cong : " + Songaycong);
+
+                Console.WriteLine("He so luong : " + base.Hesoluong);
+
+                Console.WriteLine("Phu cap : " + base.PhuCap);
+
+                Console.WriteLine("Chuc vu : " + Chucvu);
+
+                Console.WriteLine("Luong : " + salary().ToString());
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+        public bool SearchPhongBan(string Phong_Ban)
+
+        {
+
+            if (Phong_Ban == PhongBan)
+
+            {
+
+                Console.WriteLine("===== Thong tin nhan vien =====");
+
+                Console.WriteLine("Ho va ten : " + base.HoTen);
+
+                Console.WriteLine("Phong ban : " + PhongBan);
+
+                Console.WriteLine("So ngay cong : " + Songaycong);
+
+                Console.WriteLine("He so luong : " + base.Hesoluong);
+
+                Console.WriteLine("Phu cap : " + base.PhuCap);
+
+                Console.WriteLine("Chuc vu : " + Chucvu);
+
+                Console.WriteLine("Luong : " + salary().ToString());
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+ 
+
+    }
+
+}
